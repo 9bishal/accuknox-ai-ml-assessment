@@ -1,0 +1,6 @@
+books.db
+users.db
+student_scores.png
+__pycache__/
+*.pyc
+.DS_Store
