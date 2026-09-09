@@ -121,8 +121,7 @@ Python, REST API, JSON, SQLite, SQL, CSV, Matplotlib, Requests, Vector Databases
 **Bishal Kumar Shah** — AI/ML, Dept. of AI, CMRIT (VTU) — `shahvishal.9090@gmail.com`
 
 - GitHub: <https://github.com/9bishal>
-- Resume: `1CR23AI020_BISHAL KUMAR SHAH_AI RESUME.pdf` (in `~/Downloads/`) — also available on request / drive link.
-- Latest AI Resume: `AIML_Resume.pdf` (in `~/Downloads/`)
+
 
 For submission: this repository (`9bishal/accuknox-ai-ml-assessment`) or drive link available on request.
 
