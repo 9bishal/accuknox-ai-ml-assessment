@@ -12,6 +12,12 @@ dist/
 build/
 *.pyo
 *.pyd
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.pyright/
+.coverage
+htmlcov/
 
 # Virtual Environments
 .venv/

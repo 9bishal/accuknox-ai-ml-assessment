@@ -1,34 +1,41 @@
-# pyrefly: ignore [missing-import]
+from pathlib import Path
 
 import requests
 # pyrefly: ignore [missing-import]
 import matplotlib.pyplot as plt
 
+
 API_URL = "https://jsonplaceholder.typicode.com/users"
 
+# Resolve output path relative to script location
+BASE_DIR = Path(__file__).resolve().parent
+OUTPUT_IMAGE = BASE_DIR / "student_scores.png"
 
-def fetch_student_scores():
-    response=requests.get(API_URL, timeout=10)
 
+def fetch_student_data():
+    response = requests.get(API_URL, timeout=10)
 
-    if response.status_code!=200:
-        print("Failed to fetch student data")
+    if response.status_code != 200:
+        print("Failed to fetch student data from API")
         return []
 
+    data = response.json()
 
-
-    data=response.json()
-    students=[]
-
+    students = []
 
     for index, student in enumerate(data[:8]):
-        name=student.get("name", f"Student{index+1}")
+        name = student.get("name", f"Student {index + 1}")
 
-        score=60 + (index*5 %41)
+        # Assumption:
+        # The selected API provides user/student names but does not
+        # provide test scores. Scores are assigned for demonstration.
+        score = 60 + (index * 5)
+
         students.append({
             "name": name,
             "score": score
         })
+
     return students
 
 
@@ -36,58 +43,73 @@ def calculate_average(students):
     if not students:
         return 0
 
-    total=sum(student['score'] for student in students)
+    total_score = sum(student["score"] for student in students)
 
-    return total/len(students)
+    average = total_score / len(students)
 
-
-
-def display_chart(students, average_score):
-    names=[student['name'] for student in students]
-    score=[student['score'] for student in students]
+    return average
 
 
-    plt.figure(figsize=(10,6))
+def display_scores(students, average):
+    print("\nStudent Test Scores:")
+    print("-" * 40)
 
-    plt.bar(names, score)
+    for student in students:
+        print(f"{student['name']}: {student['score']}")
 
+    print("-" * 40)
+    print(f"Average Score: {average:.2f}")
+
+
+def create_chart(students, average):
+    names = [student["name"] for student in students]
+    scores = [student["score"] for student in students]
+
+    plt.figure(figsize=(10, 6))
+
+    plt.bar(names, scores)
 
     plt.axhline(
-        average_score, linestyle="--",
-        label=f"Average: {average_score:.2f}"
+        average,
+        linestyle="--",
+        label=f"Average: {average:.2f}"
     )
-    plt.xlabel("Students")
-    plt.ylabel("Test Score")
-    plt.title("Student Test Scores")
 
-    plt.xticks(rotation=30)
+    plt.title("Student Test Scores")
+    plt.xlabel("Students")
+    plt.ylabel("Score")
+
+    plt.xticks(rotation=30, ha='right')
 
     plt.legend()
     plt.tight_layout()
 
-    plt.savefig("student_scores.png")
+    plt.savefig(OUTPUT_IMAGE)
+    print(f"\nChart saved to: {OUTPUT_IMAGE}")
 
-    plt.show()
-
-
+    # Only show interactively if a GUI backend is available
+    try:
+        if plt.get_backend().lower() != "agg":
+            plt.show()
+        else:
+            plt.close()
+    except Exception:
+        plt.close()
 
 
 def main():
-    students=fetch_student_scores()
+    students = fetch_student_data()
 
     if not students:
+        print("No student data fetched.")
         return
 
+    average = calculate_average(students)
 
-    average_score=calculate_average(students)
+    display_scores(students, average)
 
-    print("Student Scores")
-    for student in students:
-        print(f"{student['name']}: {student['score']}")
+    create_chart(students, average)
 
-    print(f"\nAverage Score: {average_score:.2f}")
-    display_chart(students, average_score)
 
 if __name__ == "__main__":
     main()
-
