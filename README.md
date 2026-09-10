@@ -105,8 +105,6 @@ As requested in Problem Statement 1:
 3. **ReachInbox Email Scheduler** — BullMQ + Redis + PostgreSQL, Google OAuth, per-sender hourly limits, restart-safe idempotent delivery.
    - **Link:** <https://github.com/9bishal/reachinbox-email-scheduler>
 
-4. **PERC Production** — Supabase/PostgreSQL with program images, contact form, and faculty management.
-   - **Link:** <https://github.com/9bishal/PERC-Prod>
 
 All repositories are public unless noted. Private repos available on request.
 
